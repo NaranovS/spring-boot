@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Registration Confirmation Page</title>
+    <link href="../static/css/app.css" th:href="@{/css/app.css}" rel="stylesheet" />
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="generic-container">
+    <div class="authbar">
+        <span>Dear <strong th:text="${loggedinuser}"></strong>, Welcome to CrazyUsers.</span> <span class="floatRight"><a th:href="@{/logout}">Logout</a></span>
+    </div>
+
+    <div th:text="${success}" class="alert alert-success lead"></div>
+
+    <span class="well floatRight">
+            Go to <a th:href="@{/list}">Users List</a>
+        </span>
+</div>
+</body>
+
+</html>

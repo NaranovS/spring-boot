@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>User Registration Form</title>
+    <link href="../static/css/app.css" th:href="@{/css/app.css}" rel="stylesheet" />
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
+
+<body>
+<div class="generic-container">
+    <div class="authbar">
+        <span>Dear <strong th:text="${loggedinuser}"></strong>, Welcome to CrazyUsers.</span> <span class="floatRight"><a th:href="@{/logout}">Logout</a></span>
+    </div>
+    <div class="well lead">User Registration Form</div>
+<!--    <form th:object="${user}" th:action="${edit} ? @{/editUser-*{id}} : @{/newUser}"  method="POST" class="form-horizontal">-->
+    <form th:object="${user}" th:action="${edit} ? @{'/editUser-' + *{id}} : @{/newUser}"  method="POST" class="form-horizontal">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="name">Name</label>
+                <div class="col-md-7">
+                    <input type="text" id="name" th:field="*{name}" class="form-control input-sm"th:required="true"/>
+                    <div class="has-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name Error</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="login">Login</label>
+                <div class="col-md-7">
+                    <input type="text" id="login" th:field="*{login}" class="form-control input-sm" th:readonly="${edit} ? 'true' : 'false'">
+                    <div class="has-error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}" >Login Error</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="email">Email</label>
+                <div class="col-md-7">
+                    <input type="text" id="email" th:field="*{email}" class="form-control input-sm" th:required="true"/>
+                    <div class="has-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" >Email Error</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="password">Password</label>
+                <div class="col-md-7">
+                    <input type="password" id="password" th:field="*{password}" class="form-control input-sm" th:required="true"/>
+                    <div class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{login}" >Password Error</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="userProfiles">Roles</label>
+                <div class="col-md-7">
+
+                    <div th:if="${edit}">
+                        <select class="form-control input-sm" id="userProfiles" th:field="*{userProfiles}" name="userProfiles" multiple="multiple" th:required="true">
+                            <option th:each="role : ${allRoles}"
+                                    th:value="${{role}}"
+                                    th:text="${role.type}"
+                            >Role
+                            </option>
+                        </select>
+                    </div>
+                    <div th:unless="${edit}">
+                        <select class="form-control input-sm" id="userProfiles" name="userProfiles" multiple="multiple" th:required="true">
+                            <option th:each="role : ${allRoles}"
+                                    th:value="${{role}}"
+                                    th:text="${role.type}"
+                                    th:selected="${role.id == 1}"
+                            >Role
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="has-error" th:if="${#fields.hasErrors('userProfiles')}" th:errors="*{userProfiles}" >Password Error</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-actions floatRight">
+
+                <input type="submit" th:value="${edit} ? 'Update' : 'Register'" class="btn btn-primary btn-sm"/> or <a th:href="@{/list}">Cancel</a>
+
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
